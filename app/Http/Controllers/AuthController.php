@@ -45,7 +45,7 @@ class AuthController extends Controller
             $token = $this->userService->login($credentialsData);
 
             if(!$token){
-                return reponse()->json(['Error' => 'Credenciales invalidas'], 401);
+                return response()->json(['Error' => 'Credenciales invalidas'], 401);
             }
 
             return response()->json(compact('token'));
