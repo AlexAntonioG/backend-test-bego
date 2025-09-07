@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\UserServiceInterface;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 

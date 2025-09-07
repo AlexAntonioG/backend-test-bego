@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use MongoDB\Laravel\Eloquent\Model as Eloquent;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Eloquent implements JWTSubject, AuthenticatableContract
 {
+    use Authenticatable;
+
     protected $connection = 'mongodb';
     protected $collection = 'users';
 
