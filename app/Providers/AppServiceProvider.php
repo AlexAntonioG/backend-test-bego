@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\TruckServiceInterface::class,
             \App\Services\TruckService::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\OrderServiceInterface::class,
+            \App\Services\OrderService::class
+        );
     }
 
     /**
