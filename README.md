@@ -1,61 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Backend Test (Laravel + MongoDB)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto implementa un backend de prueba técnica con **Laravel 12**, **MongoDB** y **JWT Authentication**.  
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisitos
+- PHP 8.2+ (Como recomendación ocupar el de XAMPP debido a que ya tiene por default extensiones activadas)
+- Composer
+- MongoDB
+- API Key de Google Places
+- El archivo `.env` proporcionado ya incluye la variable `JWT_SECRET` necesaria para la autenticación con JWT y la variable `GOOGLE_MAPS_KEY`.
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+PHP y MongoDB:
+Para que Laravel pueda conectarse a MongoDB es necesario tener instalada la extensión `php-mongodb`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Si usas XAMPP, asegúrate de descargar la versión de `php_mongodb.dll` que corresponda a tu versión de PHP desde: https://pecl.php.net/package/mongodb
+- Copia el archivo `.dll` dentro de la carpeta `php/ext` de tu instalación.
+- Activa la extensión agregando esta línea en tu `php.ini`:
+```bash
+extension=php_mongodb.dll
+```
+- Este proyecto fue desarrollado en un entorno local con PHP 8.2 y XAMPP.  
+- La conexión con MongoDB fue probada usando MongoDB Compass.  
+- Se recomienda Postman para probar los endpoints.
 
-## Learning Laravel
+## Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+git clone https://github.com/AlexAntonioG/backend-test-bego.git
+cd backend-test-bego
+composer install
+# NOTA: Agregar el archivo .env proporcionado antes de hacer el cambio de archivo .env
+cp .env.example .env
+php artisan key:generate
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Migraciones
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+php artisan migrate
+```
 
-## Laravel Sponsors
+## Levantar servidor
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+php artisan serve
+```
+Servidor disponible en: http://127.0.0.1:8000
 
-### Premium Partners
+## Autenticación
+El sistema usa JWT para proteger endpoints.  
+Registro/Login devuelven un token.  
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Nota sobre autenticación
 
-## Contributing
+La API implementa **JWT** para registro y login (`/api/register`, `/api/login`).  
+En un proyecto real, todos los endpoints deberían estar protegidos con `auth:api` y requerir el token en el header:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+Authorization: Bearer <token>
+```
 
-## Code of Conduct
+⚠️ **Importante:**  
+Por cuestiones de tiempo en esta prueba, los demás endpoints (`users`, `trucks`, `orders`, `locations`) no están protegidos con JWT y se pueden consumir directamente.  
+La base para protegerlos ya está configurada (guards, generación de tokens, etc.).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Dominios implementados
+### Users
 
-## Security Vulnerabilities
+- Registro y Login con JWT
+- CRUD completo de usuarios
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Trucks
+- CRUD de camiones
+- Relación con User
+- Aggregation para incluir datos del propietario
 
-## License
+### Orders
+- CRUD de órdenes
+- Relación con User, Truck y Location (pickup/dropoff)
+- Endpoint especial para cambiar el status
+- Estados permitidos: created, in transit, completed
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Locations
+- CRUD de ubicaciones
+- Creación a partir de place_id de Google Places
+- Obtención de address, latitude y longitude
+- Validación para evitar duplicados (409 Conflict si ya existe)
+
+## Experiencia
+
+Durante el desarrollo seguí un proceso paso a paso por dominio , creando para cada uno:
+- Migración (colección en MongoDB)
+- Modelo (Eloquent adaptado a Mongo)
+- Interfaz + Servicio (lógica de negocio)
+- Binding en AppServiceProvider
+- Controlador con try/catch
+- Rutas en api.php
+
+Obstáculos encontrados
+- Nunca había trabajado con MongoDB en Laravel. Instalé el paquete correcto (mongodb/laravel-mongodb) e investigué cómo manejar ObjectId.
+- También fue la primera vez que implementaba JWT en Laravel. Aprendí cómo generar tokens al registrar/login y cómo configurar el guard api para proteger endpoints con JWT ya que normalmente ocupaba la configuración default o Sactum con Laravel.
+- En un inicio, las consultas no devolvían nada porque $unwind eliminaba los documentos si el lookup no encontraba coincidencias. La solución fue usar preserveNullAndEmptyArrays: true para que las órdenes se devolvieran aunque faltara algún ObjectId.
+
