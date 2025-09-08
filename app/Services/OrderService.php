@@ -66,6 +66,11 @@ class OrderService implements OrderServiceInterface
             }
         }
 
+        // Si por defecto status no viene
+        if (!isset($data['status'])) {
+            $data['status'] = Order::STATUS_CREATED;
+        }
+
         return Order::create($data);
     }
 
