@@ -21,7 +21,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'user'
                     ]
                 ],
-                ['$unwind' => '$user'],
+                ['$unwind' => ['path' => '$user', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$lookup' => [
                         'from' => 'trucks',
@@ -30,7 +30,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'truck'
                     ]
                 ],
-                ['$unwind' => '$truck'],
+                ['$unwind' => ['path' => '$truck', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$lookup' => [
                         'from' => 'locations',
@@ -39,7 +39,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'pickup'
                     ]
                 ],
-                ['$unwind' => '$pickup'],
+                ['$unwind' => ['path' => '$pickup', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$lookup' => [
                         'from' => 'locations',
@@ -48,7 +48,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'dropoff'
                     ]
                 ],
-                ['$unwind' => '$dropoff'],
+                ['$unwind' => ['path' => '$dropoff', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$unset' => [
                         'user.password',
@@ -84,7 +84,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'user'
                     ]
                 ],
-                ['$unwind' => '$user'],
+                ['$unwind' => ['path' => '$user', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$lookup' => [
                         'from' => 'trucks',
@@ -93,7 +93,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'truck'
                     ]
                 ],
-                ['$unwind' => '$truck'],
+                ['$unwind' => ['path' => '$truck', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$lookup' => [
                         'from' => 'locations',
@@ -102,7 +102,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'pickup'
                     ]
                 ],
-                ['$unwind' => '$pickup'],
+                ['$unwind' => ['path' => '$pickup', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$lookup' => [
                         'from' => 'locations',
@@ -111,7 +111,7 @@ class OrderService implements OrderServiceInterface
                         'as' => 'dropoff'
                     ]
                 ],
-                ['$unwind' => '$dropoff'],
+                ['$unwind' => ['path' => '$dropoff', 'preserveNullAndEmptyArrays' => true]],
                 [
                     '$unset' => [
                         'user.password',
