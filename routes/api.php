@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TruckController;
+use App\Http\Controllers\UserController;
 
 // Endpoints para autenticación
 Route::post('register', [AuthController::class, 'register']);
@@ -23,3 +24,15 @@ Route::apiResource('users', UserController::class);
 // PUT    /api/trucks/{id}   -> update()
 // DELETE /api/trucks/{id}   -> destroy()
 Route::apiResource('trucks', TruckController::class);
+
+// Endpoint general de CRUD para orders
+// GET    /api/orders        -> index()
+// POST   /api/orders        -> store()
+// GET    /api/orders/{id}   -> show()
+// PUT    /api/orders/{id}   -> update()
+// DELETE /api/orders/{id}   -> destroy()
+Route::apiResource('orders', OrderController::class);
+
+// Cambio de status especifico de la orden
+Route::patch('orders/{id}/status', [OrderController::class, 'updateStatus']);
+
