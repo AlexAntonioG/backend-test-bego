@@ -43,4 +43,4 @@ Route::patch('orders/{id}/status', [OrderController::class, 'updateStatus']);
 // GET    /api/locations/{id}   -> show()
 // PUT    /api/locations/{id}   -> update()
 // DELETE /api/locations/{id}   -> destroy()
-Route::apiResource('locations', [LocationController::class]);
+Route::apiResource('locations', LocationController::class);

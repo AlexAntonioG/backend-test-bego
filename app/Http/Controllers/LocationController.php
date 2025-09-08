@@ -41,7 +41,7 @@ class LocationController extends Controller
         } catch (Exception $e) {
 
             Log::error('Error creando location: ' . $e->getMessage());
-            return response()->json(['Error creando location'], 500);
+            return response()->json(['Error creando location: ' . $e->getMessage()], 500);
 
         }
     }
