@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TruckController;
 use App\Http\Controllers\UserController;
@@ -36,3 +37,10 @@ Route::apiResource('orders', OrderController::class);
 // Cambio de status especifico de la orden
 Route::patch('orders/{id}/status', [OrderController::class, 'updateStatus']);
 
+// Endpoint general de CRUD para locations
+// GET    /api/locations        -> index()
+// POST   /api/locations        -> store()
+// GET    /api/locations/{id}   -> show()
+// PUT    /api/locations/{id}   -> update()
+// DELETE /api/locations/{id}   -> destroy()
+Route::apiResource('locations', LocationController::class);
