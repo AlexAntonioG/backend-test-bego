@@ -25,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\OrderServiceInterface::class,
             \App\Services\OrderService::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\LocationServiceInterface::class,
+            \App\Services\LocationService::class
+        );
     }
 
     /**
