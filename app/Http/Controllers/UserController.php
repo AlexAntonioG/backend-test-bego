@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\UserService;
-use Exception;
+use App\Interfaces\UserServiceInterface;
 use Illuminate\Http\Request;
+use Exception;
+use Log;
 
 class UserController extends Controller
 {
-    public function __construct(UserService $userService)
+    private $userService;
+
+    public function __construct(UserServiceInterface $userService)
     {
         $this->userService = $userService;
     }
