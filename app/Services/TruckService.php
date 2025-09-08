@@ -20,7 +20,10 @@ class TruckService implements TruckServiceInterface
                         'as' => 'owner'
                     ]
                 ],
-                ['$unwind' => '$owner']
+                ['$unwind' => '$owner'],
+                [
+                    '$unset' => ['owner.password']
+                ]
             ]);
         });
     }
@@ -36,7 +39,29 @@ class TruckService implements TruckServiceInterface
 
     public function find(string $id)
     {
-        return Truck::find($id);
+        return Truck::raw(function($collection) use ($id) {
+
+            return $collection->aggregate([
+                [
+                    '$match' => [
+                        '_id' => new ObjectId($id)
+                    ]
+                ],
+                [
+                    '$lookup' => [
+                        'from' => 'users',
+                        'localField' => 'user',
+                        'foreignField' => '_id',
+                        'as' => 'owner'
+                    ]
+                ],
+                ['$unwind' => '$owner'],
+                [
+                    '$unset' => ['owner.password']
+                ]
+            ]);
+
+        })->first();
     }
 
     public function update(string $id, array $data)
