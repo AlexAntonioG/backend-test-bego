@@ -15,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\UserServiceInterface::class,
             \App\Services\UserService::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\TruckServiceInterface::class,
+            \App\Services\TruckService::class
+        );
     }
 
     /**
